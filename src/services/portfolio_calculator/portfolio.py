@@ -11,10 +11,6 @@ class Portfolio(ReturnAnalyticsMixin):
     Portfolio of ETFs with the same analytics interface as ETF.
     """
 
-    YEARLY_MARKET_DAYS: int = 252
-    HISTORY_COLUMNS: List[str] = ['Open', 'Close', 'Dividends']
-    RETURNS_COLUMNS: List[str] = ['Share Price', 'Shares', 'Total Value', 'Accumulated Dividends']
-
     def __init__(
         self,
         etfs: Sequence[ETF],

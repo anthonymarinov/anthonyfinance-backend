@@ -2,19 +2,17 @@ import numpy as np
 import pandas as pd
 
 from typing import List, Optional
+from src.services.portfolio_calculator.models.returns_result import ReturnsResult
 
 class ReturnAnalyticsMixin():
     """
     Mixin expecting:
-      - YEARLY_MARKET_DAYS: int
-      - HISTORY_COLUMNS: List[str]
-      - RETURNS_COLUMNS: List[str]
       - a concrete `get_historical_data(self, period: str) -> pd.DataFrame`
     """
 
-    YEARLY_MARKET_DAYS: int
-    HISTORY_COLUMNS: List[str]
-    RETURNS_COLUMNS: List[str]
+    YEARLY_MARKET_DAYS: int = 252
+    HISTORY_COLUMNS: List[str] = ['Open', 'Close', 'Dividends']
+    RETURNS_COLUMNS: List[str] = ['Share Price', 'Shares', 'Total Value', 'Accumulated Dividends']
 
     def get_historical_data(self, period: str) -> pd.DataFrame:
         raise NotImplementedError
@@ -158,3 +156,43 @@ class ReturnAnalyticsMixin():
         annualized_sharpe = daily_sharpe * np.sqrt(self.YEARLY_MARKET_DAYS)
 
         return annualized_sharpe
+    
+    def get_returns_result(
+        self,
+        starting_shares: float,
+        period: str,
+        personal_contributions: float,
+        contribution_period: int,
+        include_dividends: bool,
+        is_drip_active: bool,
+        annual_risk_free_return: float
+    ) -> ReturnsResult:
+        returns_df = self.get_returns(
+            starting_shares=starting_shares,
+            period=period,
+            personal_contributions=personal_contributions,
+            contribution_period=contribution_period,
+            include_dividends=include_dividends,
+            is_drip_active=is_drip_active
+        )
+
+        annualized_return = self.get_annualized_return(
+            period=period,
+            include_dividends=include_dividends,
+            is_drip_active=is_drip_active,
+            returns=returns_df
+        )
+
+        sharpe_ratio = self.get_sharpe_ratio(
+            period=period,
+            annual_risk_free_return=annual_risk_free_return,
+            include_dividends=include_dividends,
+            is_drip_active=is_drip_active,
+            returns=returns_df
+        )
+
+        return ReturnsResult.from_dataframe_with_metrics(
+            returns_df,
+            annualized_return,
+            sharpe_ratio
+        )

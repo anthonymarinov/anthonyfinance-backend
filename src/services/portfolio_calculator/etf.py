@@ -7,10 +7,7 @@ from typing import List, Dict
 from src.services.portfolio_calculator.return_analytics_mixin import ReturnAnalyticsMixin
 
 class ETF(ReturnAnalyticsMixin):
-    YEARLY_MARKET_DAYS: int = 252
-    HISTORY_COLUMNS: List[str] = ['Open', 'Close', 'Dividends']
-    RETURNS_COLUMNS: List[str] = ['Share Price', 'Shares', 'Total Value', 'Accumulated Dividends']
-
+    
     def __init__(self, tickers: List[str], holdings: List[float],
                  shares_outstanding: int):
         self.tickers: List[str] = tickers
