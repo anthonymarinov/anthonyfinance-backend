@@ -5,7 +5,7 @@ from datetime import date
 from pydantic import BaseModel
 
 
-class ReturnsResult(BaseModel):
+class EtfSimulationResult(BaseModel):
     dates: List[date]
     share_prices: List[float]
     shares: List[float]
@@ -20,7 +20,7 @@ class ReturnsResult(BaseModel):
         df: pd.DataFrame, 
         annualized_return: float, 
         sharpe_ratio: float
-    ) -> "ReturnsResult":
+    ) -> "EtfSimulationResult":
         return cls(
             dates=[d.date() for d in df.index],
             share_prices=df['Share Price'].tolist(),

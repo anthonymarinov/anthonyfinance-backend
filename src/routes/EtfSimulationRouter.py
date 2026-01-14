@@ -1,16 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 
-from src.services.portfolio_calculator.etf import ETF
-from src.services.portfolio_calculator.models.etf_returns_params import EtfReturnsParams
-from src.services.portfolio_calculator.models.returns_result import ReturnsResult
+from src.services.etf_simulator.Etf import ETF
+from src.services.etf_simulator.models.EtfSimulationParams import EtfSimulationParams
+from src.services.etf_simulator.models.EtfSimulationResult import EtfSimulationResult
 
 router = APIRouter()
 
 
-@router.post("/portfolio-calculator/etf/get-returns", response_model=ReturnsResult)
-def get_etf_returns(params: EtfReturnsParams) -> ReturnsResult:
+@router.post("/etf-simulator", response_model=EtfSimulationResult)
+def simulate_etf(params: EtfSimulationParams) -> EtfSimulationResult:
     """
-    Get returns for an ETF composed of multiple tickers.
+    Simulate an ETF based on provide parameters.
+    
+    :param params: ETF simulation input parameters
+    :type params: EtfSimulationParams
+    :return: ETF simulation results
+    :rtype: EtfSimulationResult
     """
     try:
         etf: ETF = ETF(
@@ -18,7 +23,7 @@ def get_etf_returns(params: EtfReturnsParams) -> ReturnsResult:
             holdings=params.holdings,
             shares_outstanding=params.shares_outstanding
         )
-        returns_result: ReturnsResult = etf.get_returns_result(
+        returns_result: EtfSimulationResult = etf.get_returns_result(
             starting_shares=params.starting_shares,
             period=params.period,
             personal_contributions=params.personal_contributions,
@@ -32,3 +37,4 @@ def get_etf_returns(params: EtfReturnsParams) -> ReturnsResult:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    

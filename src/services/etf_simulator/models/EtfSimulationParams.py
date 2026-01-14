@@ -3,8 +3,8 @@ from typing import List
 from pydantic import BaseModel, Field
 
 
-class EtfReturnsParams(BaseModel):
-    """Request body for ETF returns endpoint."""
+class EtfSimulationParams(BaseModel):
+    """Request body for ETF Simulation endpoint."""
     
     tickers: List[str] = Field(..., description="List of ETF tickers")
     holdings: List[float] = Field(..., description="List of holdings corresponding to each ticker")

@@ -3,13 +3,15 @@ import pandas as pd
 
 from typing import List, Dict, Sequence
 
-from src.services.portfolio_calculator.return_analytics_mixin import ReturnAnalyticsMixin
-from src.services.portfolio_calculator.etf import ETF
+from src.services.etf_simulator.Etf import ETF
 
-class Portfolio(ReturnAnalyticsMixin):
+class ComplexPortfolio():
     """
     Portfolio of ETFs with the same analytics interface as ETF.
     """
+    YEARLY_MARKET_DAYS: int = 252
+    HISTORY_COLUMNS: List[str] = ['Open', 'Close', 'Dividends']
+    RETURNS_COLUMNS: List[str] = ['Share Price', 'Shares', 'Total Value', 'Accumulated Dividends']
 
     def __init__(
         self,

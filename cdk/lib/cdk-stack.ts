@@ -38,7 +38,7 @@ export class CdkStack extends cdk.Stack {
         layers: [dependenciesLayer],
     })
 
-    // Set these via CDK context: npx cdk deploy -c domain={domain} -c certificateArn={arn:aws:acm:...}
+    // Set these via CDK context: cdk deploy -c domain={domain} -c certificateArn={arn:aws:acm:...}
     const domainName = this.node.tryGetContext('domain');
     const certificateArn = this.node.tryGetContext('certificateArn');
     
