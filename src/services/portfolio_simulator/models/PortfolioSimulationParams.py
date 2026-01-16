@@ -15,6 +15,7 @@ class PortfolioSimulationParams(BaseModel):
     include_dividends: bool = Field(True, description="Whether to include dividends in returns")
     is_drip_active: bool = Field(False, description="Whether dividend reinvestment plan (DRIP) is active")
     annual_risk_free_return: float = Field(0.03, description="Annual risk-free return rate for Sharpe ratio calculation")
+    max_data_points: int = Field(150, description="Maximum number of data points to return for charting (0 for no limit)")
 
     class Config:
         extra = "forbid"

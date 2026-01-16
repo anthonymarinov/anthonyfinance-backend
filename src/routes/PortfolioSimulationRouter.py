@@ -29,5 +29,6 @@ def simulate_portfolio(params: PortfolioSimulationParams) -> PortfolioSimulation
         contribution_period=params.contribution_period,
         include_dividends=params.include_dividends,
         is_drip_active=params.is_drip_active,
-        annual_risk_free_return=params.annual_risk_free_return
+        annual_risk_free_return=params.annual_risk_free_return,
+        max_data_points=params.max_data_points
     )

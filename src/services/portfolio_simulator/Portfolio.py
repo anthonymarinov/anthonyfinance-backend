@@ -378,10 +378,20 @@ class Portfolio():
         contribution_period: int,
         include_dividends: bool,
         is_drip_active: bool,
-        annual_risk_free_return: float
+        annual_risk_free_return: float,
+        max_data_points: int = 0
     ) -> PortfolioSimulationResult:
         """
         Get complete simulation results including returns data and performance metrics.
+        
+        Args:
+            period: Historical data period
+            personal_contributions: Amount of periodic contributions
+            contribution_period: Days between contributions
+            include_dividends: Whether to include dividends
+            is_drip_active: Whether DRIP is enabled
+            annual_risk_free_return: Risk-free rate for Sharpe calculation
+            max_data_points: Maximum chart data points to return (0 = no limit)
         """
         returns_df = self.get_returns(
             period=period,
@@ -417,5 +427,6 @@ class Portfolio():
             annualized_return,
             sharpe_ratio,
             final_value,
-            projected_annual_dividend_income
+            projected_annual_dividend_income,
+            max_data_points=max_data_points
         )
